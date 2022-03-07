@@ -29,7 +29,7 @@ const renderCreatePaymentEventList = (session) => {
         <div id="add-user-section">
             <section class="user-section">
                 <label for="user">User ${userCount}:</label><br>
-                <input type="text" id="${userCount}" class="user" name="user"> 
+                <input type="text" value="${session.username}" id="${userCount}" class="user" name="user" readonly> 
                 <label for="percentage">Percentage: </label>
                 <input type="number" id="percentage-${userCount}" class="percentage" name="percentage">   
                 <span id="display-${userCount}"></span><br>
