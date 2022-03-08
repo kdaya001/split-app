@@ -1,21 +1,13 @@
 const renderCreatePaymentEventList = (session) => {
-    function changebackgroundtocolor() {
-        document.body.style.backgroundImage =
-            'linear-gradient(to left, #c200fb, #ffbc0a';
-    }
-    changebackgroundtocolor();
     const page = document.getElementById('page');
     let userCount = 1;
 
     // get rid of all br tags after styling
 
     page.innerHTML = `
-    
-    <div class="container mx-auto">
-    <div class="d-flex-center">
-    
-    <form id="eventDetails">
     <h1>Add Payment Event</h1>
+    <p id="error"></p>
+    <form id="eventDetails">
         <label for="eventName">Event Name:</label><br>
         <input type="text" id="eventName" name="eventName"><br>
         <label for="description">Description:</label><br>
@@ -31,17 +23,17 @@ const renderCreatePaymentEventList = (session) => {
         <div id="add-user-section">
             <section class="user-section">
                 <label for="user">User ${userCount}:</label><br>
-                <input type="text" id="${userCount}" class="user" name="user"> 
+                <input type="text" id="${userCount}" class="user" name="user" value="${
+        getSession().username
+    }" readonly> 
                 <label for="percentage">Percentage: </label>
                 <input type="number" id="percentage-${userCount}" class="percentage" name="percentage">   
                 <span id="display-${userCount}"></span><br>
             </section>
         </div>
 
-        <button class="btn-block btn-color" type="submit">Submit</button>
-    </form>
-    </div>
-    </div>`;
+        <button type="submit" class="submitEvent">Submit</button>
+    </form>`;
 
     new Pikaday({
         field: document.getElementById('dueDate'),
@@ -59,10 +51,11 @@ const renderCreatePaymentEventList = (session) => {
 
         // check valid user or not
         let valid = true;
+        const error = document.getElementById('error');
 
         if (valid) {
             // no errors
-            const error = document.getElementById('error');
+
             if (error) {
                 error.innerHTML = '';
             }
@@ -150,19 +143,7 @@ const renderCreatePaymentEventList = (session) => {
                 axios
                     .post('/api/paymentsEvent', body)
                     .then((response) => {
-                        const updateBody = {
-                            user_id: session.user_id,
-                            event_id: response.data.id,
-                        };
-                        axios
-                            .patch('/api/payments/updateBothStatus', updateBody)
-                            .then((response) => {
-                                mainPageElement(session);
-                            })
-                            .catch((error) => {
-                                clearErrors();
-                                displayError(error.response.data.message);
-                            });
+                        mainPageElement(session);
                     })
                     .catch((error) => {
                         clearErrors();

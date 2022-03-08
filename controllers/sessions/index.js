@@ -47,6 +47,7 @@ router.get('/', (req, res) => {
             user_id: req.session.user_id,
             email: req.session.email,
             first_name: req.session.first_name,
+            username: req.session.username,
         });
     } else {
         res.status(401).json({
