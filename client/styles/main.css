@@ -301,6 +301,9 @@ button.delete_user {
 /* ===========================
 --- Payments
 ============================ */
+.selectPaymentOwing {
+    font-size: small;
+}
 
 #all-payments-section {
     background-color: #d500f95c;
